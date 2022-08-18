@@ -1,5 +1,5 @@
 :root {
-    --snake_color: green;
+    --snake_color: rgb(93, 214, 93);
     --apple_color: red;
     font-size: 16px;
 }
@@ -8,57 +8,45 @@
     box-sizing: border-box;
 }
 
-html, body {
-    margin: 0;
-    height: 100%;
-}
-
-/*  So snakegame-container stays centered 
-    needs update later */
 body {
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    width: 100vw;
 }
 
 #snakegame-container {
-    width: 70%; /* Updated later for responsive design */
-    max-width: 40rem;
+    width: 80vmin; 
+    height: 80vmin;
     background: grey;
     display: grid;
     grid-template: repeat(16, 1fr) / repeat(16, 1fr);
+    grid-gap: 2px;
 }
-#snakegame-container:before {
-    content: "";
-    display: block;
-    padding-top: 100%;
-    /*ratio of 1:1*/
+
+#ended {
+    position: fixed;
+    font-size: 5vmin;
+    display: none;
+    text-align: center;
 }
+
 
 /* setup snake */
 .node {
     width: 100%;
-    height: 95%;
-    margin: 2.5% 0;
+    height: 100%;
     background: var(--snake_color);
 }
-.starter1 {
-    grid-column: 4;
-    grid-row: 2;
-}
-.starter2 {
-    grid-column: 3;
-    grid-row: 2;
-}
+
 
 #head {
-    height: 100%;
-    margin: 0;
     display: flex;
     justify-content: space-evenly;
     rotate: 90deg; 
-    grid-column: 5; 
-    grid-row: 2;
+    transition: all 100ms ease;
 }
 
 .eye, .tongue {
@@ -75,5 +63,14 @@ body {
     height: 40%;
     bottom: 40%;
     background: red;
+}
+
+/* apple */
+#apple {
+    margin: 10%;
+    width: 80%;
+    height: 80%;
+    background-color: var(--apple_color);
+    border-radius: 50%;
 }
 
