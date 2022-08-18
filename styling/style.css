@@ -1,0 +1,80 @@
+:root {
+    --snake_color: green;
+    --apple_color: red;
+    font-size: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+/*  So snakegame-container stays centered 
+    needs update later */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#snakegame-container {
+    position: relative;
+    width: 20rem;
+    background: grey;
+    display: grid;
+    grid-template: repeat(16, 1fr) / repeat(16, 1fr);
+    min-width: 20rem;
+}
+#snakegame-container:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+    /*ratio of 1:1*/
+}
+
+/* setup snake */
+.node {
+    width: 100%;
+    height: 95%;
+    margin: 2.5% 0;
+    background: var(--snake_color);
+}
+.starter1 {
+    grid-column: 4;
+    grid-row: 2;
+}
+.starter2 {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#head {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: space-evenly;
+    rotate: 90deg;
+    grid-column: 5; 
+    grid-row: 2;
+}
+
+.eye, .tongue {
+    position: relative;
+}
+.eye {
+    width: 0.25rem;
+    height: 0.25rem;
+    background: white;
+    margin: 5% 0;
+}
+.tongue {
+    width: 0.2rem;
+    height: 0.5rem;
+    bottom: 40%;
+    background: red;
+}
+
