@@ -22,12 +22,11 @@ body {
 }
 
 #snakegame-container {
-    position: relative;
-    width: 20rem;
+    width: 70%; /* Updated later for responsive design */
+    max-width: 40rem;
     background: grey;
     display: grid;
     grid-template: repeat(16, 1fr) / repeat(16, 1fr);
-    min-width: 20rem;
 }
 #snakegame-container:before {
     content: "";
@@ -57,7 +56,7 @@ body {
     margin: 0;
     display: flex;
     justify-content: space-evenly;
-    rotate: 90deg;
+    rotate: 90deg; 
     grid-column: 5; 
     grid-row: 2;
 }
@@ -66,14 +65,14 @@ body {
     position: relative;
 }
 .eye {
-    width: 0.25rem;
-    height: 0.25rem;
+    width: 20%;
+    height: 20%;
     background: white;
     margin: 5% 0;
 }
 .tongue {
-    width: 0.2rem;
-    height: 0.5rem;
+    width: 15%;
+    height: 40%;
     bottom: 40%;
     background: red;
 }

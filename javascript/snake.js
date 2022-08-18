@@ -6,6 +6,7 @@
  * Let snakeMover implement whether the snake dies
  * Implement a score system
  * Restart option
+ * Make modules for everything
  */
 
 class Node {
