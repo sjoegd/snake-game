@@ -97,8 +97,8 @@ class Apple {
     }
 
     generateLocation() {
-        this.column = Math.round(Math.random()*15 + 1);
-        this.row = Math.round(Math.random()*15 + 1);
+        this.column = Math.round(Math.random()*19 + 1);
+        this.row = Math.round(Math.random()*19 + 1);
         this.mydiv.style.gridColumn = this.column;
         this.mydiv.style.gridRow = this.row;
     }
