@@ -322,7 +322,7 @@ class SnakeMover {
         let clickX = Math.round(event.offsetX / snakeWidth);
         let clickY = Math.round(event.offsetY / snakeHeight);
 
-        if(event.target.parentElement.parentElement == this.apple.mydiv) {
+        if(event.target.parentElement.parentElement.parentElement == this.apple.mydiv) { // make recursive till id=apple
             [clickX, clickY] = this.apple.getLocation();
         }
 
