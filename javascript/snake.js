@@ -1,9 +1,9 @@
 /** 
  * TODO:
- * Implement a score system
- * Restart option (currently F5)
- * Make modules for everything (one file is trash)
  * Create an UI for game customizations
+ * Upgrade score system
+ * Update looks of everything
+ * Make modules for everything (one file is trash)
  */
 
 class Node {
