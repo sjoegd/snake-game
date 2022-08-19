@@ -3,7 +3,8 @@
  * Create an UI for game customizations
  * Implement game customizations
  * Upgrade score system
- * Update looks for everything
+ * Update looks for everything (let nodes inherit rotate for nicer look)
+ * Upgrade grid system (for nicer movement (more grids and snake takes more grids as space))
  * Make modules for everything (one file is trash)
  * Add modes (visual only)
  */
@@ -32,6 +33,13 @@ class Node {
     getLocation() {
         return [this.column, this.row];
     }
+
+    setStyling({top_left, bot_left, bot_right, top_right}) {
+        this.mydiv.style.borderTopLeftRadius = top_left;
+        this.mydiv.style.borderBottomLeftRadius = bot_left;
+        this.mydiv.style.borderBottomRightRadius = bot_right;
+        this.mydiv.style.borderTopRightRadius = top_right;
+    }
 }
 
 class Head extends Node {
@@ -58,12 +66,15 @@ class Head extends Node {
         let oldpos = [this.column, this.row];
         let newpos = [column, row];
         super.move(newpos[0], newpos[1]);
-
+    
         for(let i = 0; i < this.body.length; i++) {
             let node = this.body[i];
             newpos = oldpos;
             oldpos = [node.column, node.row];
             node.move(newpos[0], newpos[1]);
+            if(i > 0) {
+                this.body[i-1].setStyling(this.getNodeStyling(i-1));
+            }
         }
         this.oldpos = oldpos;
     } 
@@ -86,6 +97,69 @@ class Head extends Node {
 
         return locations;
     }
+
+    getNodeStyling(index) {
+
+        let obj = {
+            top_left: "0%", 
+            bot_left: "0%", 
+            bot_right: "0%", 
+            top_right: "0%"
+        }
+
+        let node  = this.body[index]
+
+        let prevx, prevy;
+
+        if(index == 0) {
+            [prevx, prevy] = super.getLocation();
+        } else {
+            [prevx, prevy] = this.body[index-1].getLocation();
+        }
+
+        let [nodex, nodey] = node.getLocation();
+        let [followx, followy] = this.body[index+1].getLocation();
+
+        if(prevx == nodex && nodex == followx) {
+            return obj;
+        }
+        if(prevy == nodey && nodey == followy) {
+            return obj
+        }
+
+        prevx -= nodex
+        prevy -= nodey
+        followx -= nodex
+        followy -= nodey
+
+        let newx = prevx + followx
+        let newy = prevy + followy
+
+        let top_left, bot_left, bot_right, top_right;
+        top_left = bot_left = bot_right = top_right = "0%"
+
+        // can go shorter
+        if(newx == 1 && newy == 1) {
+            top_left = "20%"
+        }
+        if(newx == 1 && newy == -1) {
+            bot_left = "20%"
+        }
+        if(newx == -1 && newy == -1) {
+            bot_right = "20%"
+        }
+        if(newx == -1 && newy == 1) {
+            top_right = "20%"
+        }
+
+        return {
+            top_left, 
+            bot_left, 
+            bot_right, 
+            top_right
+        }
+    }
+
 }
 
 class Apple {
