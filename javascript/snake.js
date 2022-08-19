@@ -111,7 +111,7 @@ class Apple {
 
 class SnakeMover {
 
-    GRID_TEMPLATE = 16;
+    GRID_TEMPLATE = 20;
 
     directions = {
         //  Column, Row
@@ -166,6 +166,7 @@ class SnakeMover {
     currentrotation = 90;
     newkey = "";
     cansetdirection = true;
+    score = 0;
 
     constructor(snakehead, apple) {
         this.snakehead = snakehead;
@@ -179,6 +180,7 @@ class SnakeMover {
             this.apple.init();
         }
         this.allowedtoplay = true;
+        this.scorediv = document.getElementById("score")
     }
 
     start() {
@@ -208,6 +210,8 @@ class SnakeMover {
             } else {
                 this.snakehead.move(column, row);
                 if(this.appleEaten()) {
+                    this.score += 1;
+                    this.scorediv.innerHTML = this.score;
                     this.createNewNode(1);
                     this.apple.generateLocation();
                     while(this.appleEaten()) {
@@ -285,7 +289,12 @@ class SnakeMover {
 
     endGame() {
         let gameOverDiv = document.getElementById("ended");
+        let gameContainer = document.getElementById("snakegame-container");
+        let pauseButton = document.getElementById("pause");
+        gameContainer.style.filter = "brightness(0.5)";
         gameOverDiv.style.display = "block";
+        pauseButton.setAttribute("disabled", "disabled");
+        pauseButton.classList.add("stopped");
         this.allowedtoplay = false;
     }
 
@@ -303,6 +312,10 @@ class SnakeMover {
         
         let clickX = Math.round(event.offsetX / snakeWidth);
         let clickY = Math.round(event.offsetY / snakeHeight);
+
+        if(event.target == this.apple.mydiv) {
+            [clickX, clickY] = this.apple.getLocation();
+        }
 
         let differenceX = clickX - snakeX;
         let differenceY = clickY - snakeY;
@@ -342,24 +355,40 @@ function initializeGame() {
 
 function initializeListeners(snakeMover) {
 
-    //  Movement
+    let startButton = document.getElementById("pause");
+    let gameContainer = document.getElementById("snakegame-container");
+    let restartButton = document.getElementById("restart");
+
     window.addEventListener('keypress', (event) => {
         if(['w', 'a', 's', 'd'].includes(event.key)) {
             pressedKey = event.key;
             snakeMover.setDirection(pressedKey);
         }
+        if(event.key == "p") {
+            pauseGame();
+        }
     })
-
-    let gameContainer = document.getElementById("snakegame-container");
 
     gameContainer.addEventListener('click', (event) => {
         snakeMover.calculateClickMovement(event);
     })
 
     // UI
-    let startButton = document.getElementById("pause");
 
-    startButton.addEventListener('click', (event) => {
+    startButton.addEventListener('click', () => {
+        pauseGame()
+    })
+
+    restartButton.addEventListener('click', () => {
+        location.reload();
+    })
+
+    function pauseGame() {
+
+        if(startButton.classList.contains("stopped")) {
+            return;
+        }
+
         if(startButton.classList.contains("unpaused")) {
             snakeMover.stop();
             startButton.classList.remove("unpaused")
@@ -373,7 +402,7 @@ function initializeListeners(snakeMover) {
             startButton.classList.add("unpaused")
             startButton.innerHTML = "Pause"
         }
-    })
+    }
 }
 
 let newGame = initializeGame();

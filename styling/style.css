@@ -1,6 +1,16 @@
 :root {
-    --snake_color: rgb(93, 214, 93);
+    --snake_color: var(--snake-c3);
     --apple_color: red;
+    --bg-color: linear-gradient(var(--bg-c3) 0%, var(--bg-c2) 100%);
+   
+    --snake-c1: #005F60;
+    --snake-c2: #008083;
+    --snake-c3: #249EA0;
+
+    --bg-c1: #FD5901;
+    --bg-c2: #F78104;
+    --bg-c3: #FAAB36;
+
     font-size: 16px;
 }
 
@@ -11,26 +21,33 @@
 body {
     margin: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
     width: 100vw;
 }
 
+/*  */
 #snakegame-container {
-    width: 80vmin; 
-    height: 80vmin;
-    background: grey;
+    width: 90vmin; 
+    height: 90vmin;
     display: grid;
-    grid-template: repeat(16, 1fr) / repeat(16, 1fr);
-    grid-gap: 2px;
+    grid-template: repeat(20, 1fr) / repeat(20, 1fr);
+    grid-gap: 1px;
+    background: var(--bg-color);
+    border-radius: 2%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
 #ended {
+    color: white;
     position: fixed;
     font-size: 5vmin;
     display: none;
     text-align: center;
+    text-shadow: 7px 2px 11px rgba(0,0,0,0.86);
+    z-index: 2;
 }
 
 
@@ -41,12 +58,13 @@ body {
     background: var(--snake_color);
 }
 
-
 #head {
     display: flex;
     justify-content: space-evenly;
     rotate: 90deg; 
     transition: all 100ms ease;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
 }
 
 .eye, .tongue {
@@ -76,5 +94,9 @@ body {
 
 /* UI */
 #pause {
-    margin: 1rem;
+    margin: 0 1rem;
+}
+#snakegame-ui {
+    width: 90vmin;
+    margin: 1rem 0;
 }
