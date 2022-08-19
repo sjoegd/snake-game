@@ -1,10 +1,10 @@
 /** 
  * TODO:
- * Implement Node, Head, snakeMover, rotateSnake
- * Let snakeMover implement whether the snake dies
+ * Update the rotation system so that the animation is more smooth
  * Implement a score system
- * Restart option
+ * Restart option (currently F5)
  * Make modules for everything
+ * Create an UI for game customizations
  */
 
 class Node {
@@ -115,14 +115,58 @@ class SnakeMover {
     GRID_TEMPLATE = 16;
 
     directions = {
-        // Column, Row, Rotation
-        'w': [0, -1, 0],
-        'a': [-1, 0, 270],
-        's': [0, 1, 180],
-        'd': [1, 0, 90],
+        //  Column, Row
+        'w': [0, -1],
+        'a': [-1, 0],
+        's': [0,  1],
+        'd': [1,  0]
     }
 
-    currentdirection = this.directions['d'];
+    keymap = {
+        //  [pressedkey][currentkey]
+        "w": {
+            "a": 90,
+            "s": 0,
+            "d": -90
+        },
+        "a": {
+            "w": -90,
+            "s": 90,
+            "d": 0
+        },
+        "s": {
+            "a": -90,
+            "w": 0,
+            "d": 90
+        },
+        "d": {
+            "a": 0,
+            "s": -90,
+            "w": 90
+        }
+    }
+
+    notValidDir = {
+        //  [pressedkey][currentkey]
+        "w": {
+            "s": true
+        },
+        "s": {
+            "w": true
+        },
+        "a": {
+            "d": true
+        },
+        "d": {
+            "a": true
+        }
+    }
+
+    currentkey = 'd'
+    currentdirection = this.directions[this.currentkey];
+    currentrotation = 90;
+    newkey = "";
+    cansetdirection = true;
 
     constructor(snakehead, apple) {
         this.snakehead = snakehead;
@@ -161,17 +205,33 @@ class SnakeMover {
                 if(this.appleEaten()) {
                     this.createNewNode(1);
                     this.apple.generateLocation();
+                    while(this.appleEaten()) {
+                        this.apple.generateLocation();
+                    }
                 }
             } 
         }, 250)
     }
 
     rotateSnake() {
-        this.snakehead.setRotate(this.currentdirection[2])
+        this.snakehead.setRotate(this.currentrotation)
+        if(this.newkey.length > 0) {
+            this.currentkey = this.newkey;
+            this.newkey = "";
+        }
     }
 
     setDirection(key) {
+        if(this.notValidDir[key][this.currentkey] || !this.cansetdirection) {
+            return;
+        }
         this.currentdirection = this.directions[key];
+        this.setNewRotation(key);
+        this.newkey = key;
+        this.cansetdirection = false;
+        setTimeout(() => {
+            this.cansetdirection = true;
+        }, 200)
     }
 
     appleEaten() {
@@ -221,6 +281,14 @@ class SnakeMover {
     endGame() {
         let gameOverDiv = document.getElementById("ended");
         gameOverDiv.style.display = "block";
+    }
+
+    setNewRotation(key) {
+        let addRotation = this.keymap[key][this.currentkey]
+
+        if(addRotation) {
+            this.currentrotation += addRotation
+        }
     }
 }
 
