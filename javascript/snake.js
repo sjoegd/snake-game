@@ -1,9 +1,11 @@
 /** 
  * TODO:
  * Create an UI for game customizations
+ * Implement game customizations
  * Upgrade score system
- * Update looks of everything
+ * Update looks for everything
  * Make modules for everything (one file is trash)
+ * Add modes (visual only)
  */
 
 class Node {
@@ -97,10 +99,11 @@ class Apple {
     }
 
     generateLocation() {
-        this.column = Math.round(Math.random()*19 + 1);
-        this.row = Math.round(Math.random()*19 + 1);
-        this.mydiv.style.gridColumn = this.column;
-        this.mydiv.style.gridRow = this.row;
+        let [newcolumn, newrow] = [Math.round(Math.random()*17) + 2, Math.round(Math.random()*17) + 2]
+        this.column = newcolumn;
+        this.row = newrow;
+        this.mydiv.style.gridColumn = newcolumn;
+        this.mydiv.style.gridRow = newrow;
     }
 
     getLocation() {
@@ -146,18 +149,22 @@ class SnakeMover {
     }
 
     notValidDir = {
-        //  [pressedkey][currentkey]
+        //  [pressedkey][currentkey] (can be shorter)
         "w": {
-            "s": true
+            "s": true,
+            "w": true,
         },
         "s": {
-            "w": true
+            "w": true,
+            "s": true
         },
         "a": {
-            "d": true
+            "d": true,
+            "a": true
         },
         "d": {
-            "a": true
+            "a": true,
+            "d": true
         }
     }
 
@@ -197,11 +204,9 @@ class SnakeMover {
         }
         this._isPlaying = true;
         let player = setInterval(() => {
-            //  Move Snake
             this.rotateSnake();
             let column = this.snakehead.column + this.currentdirection[0];
             let row = this.snakehead.row + this.currentdirection[1];
-            //  Check position
             if(!this.isValidPosition(column, row)) {
                 this.endGame();
                 clearInterval(player);    
@@ -219,10 +224,11 @@ class SnakeMover {
                     }
                 }
             } 
-        }, 250)
+        }, 150)
     }
 
     rotateSnake() {
+        this.cansetdirection = true;
         this.snakehead.setRotate(this.currentrotation)
         if(this.newkey.length > 0) {
             this.currentkey = this.newkey;
@@ -231,6 +237,9 @@ class SnakeMover {
     }
 
     setDirection(key) {
+        if(!this._isPlaying) {
+            return;
+        }
         if(this.notValidDir[key][this.currentkey] || !this.cansetdirection) {
             return;
         }
@@ -238,9 +247,6 @@ class SnakeMover {
         this.setNewRotation(key);
         this.newkey = key;
         this.cansetdirection = false;
-        setTimeout(() => {
-            this.cansetdirection = true;
-        }, 250)
     }
 
     appleEaten() {
@@ -291,10 +297,12 @@ class SnakeMover {
         let gameOverDiv = document.getElementById("ended");
         let gameContainer = document.getElementById("snakegame-container");
         let pauseButton = document.getElementById("pause");
+
         gameContainer.style.filter = "brightness(0.5)";
         gameOverDiv.style.display = "block";
-        pauseButton.setAttribute("disabled", "disabled");
         pauseButton.classList.add("stopped");
+        pauseButton.setAttribute("disabled", "disabled");
+
         this.allowedtoplay = false;
     }
 
@@ -307,13 +315,14 @@ class SnakeMover {
     }
 
     calculateClickMovement(event) {
+        
         let [snakeX, snakeY] = this.snakehead.getLocation()
         let {width: snakeWidth, height: snakeHeight} = this.snakehead.mydiv.getBoundingClientRect();
         
         let clickX = Math.round(event.offsetX / snakeWidth);
         let clickY = Math.round(event.offsetY / snakeHeight);
 
-        if(event.target == this.apple.mydiv) {
+        if(event.target.parentElement.parentElement == this.apple.mydiv) {
             [clickX, clickY] = this.apple.getLocation();
         }
 

@@ -1,8 +1,7 @@
 :root {
-    --snake_color: var(--snake-c3);
-    --apple_color: red;
+    --snake_color: green;
     --bg-color: linear-gradient(var(--bg-c3) 0%, var(--bg-c2) 100%);
-   
+
     --snake-c1: #005F60;
     --snake-c2: #008083;
     --snake-c3: #249EA0;
@@ -62,7 +61,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     rotate: 90deg; 
-    transition: all 100ms ease;
+    transition: all 200ms ease;
     border-top-left-radius: 10%;
     border-top-right-radius: 10%;
 }
@@ -85,18 +84,25 @@ body {
 
 /* apple */
 #apple {
-    margin: 10%;
-    width: 80%;
-    height: 80%;
-    background-color: var(--apple_color);
+    margin: 5%;
+    width: 90%;
+    height: 90%;
     border-radius: 50%;
 }
 
 /* UI */
 #pause {
-    margin: 0 1rem;
+    margin: 0 0.5rem;
 }
 #snakegame-ui {
     width: 90vmin;
     margin: 1rem 0;
+}
+
+#score {
+    margin-right: 0.30rem;
+}
+
+.speedbutton {
+    margin: 0 0.20rem;
 }
