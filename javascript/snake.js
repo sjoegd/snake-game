@@ -1,9 +1,8 @@
 /** 
  * TODO:
- * Update the rotation system so that the animation is more smooth
  * Implement a score system
  * Restart option (currently F5)
- * Make modules for everything
+ * Make modules for everything (one file is trash)
  * Create an UI for game customizations
  */
 
@@ -179,6 +178,7 @@ class SnakeMover {
         while(this.appleEaten()) {
             this.apple.init();
         }
+        this.allowedtoplay = true;
     }
 
     start() {
@@ -190,15 +190,20 @@ class SnakeMover {
     }
 
     async _snakeMover() {
+        if(!this.allowedtoplay) {
+            return;
+        }
         this._isPlaying = true;
         let player = setInterval(() => {
-            // Move Snake
+            //  Move Snake
             this.rotateSnake();
             let column = this.snakehead.column + this.currentdirection[0];
             let row = this.snakehead.row + this.currentdirection[1];
-            // Check position
-            if(!this.isValidPosition(column, row) || !this._isPlaying) {
+            //  Check position
+            if(!this.isValidPosition(column, row)) {
                 this.endGame();
+                clearInterval(player);    
+            } else if(!this._isPlaying) {
                 clearInterval(player);
             } else {
                 this.snakehead.move(column, row);
@@ -231,7 +236,7 @@ class SnakeMover {
         this.cansetdirection = false;
         setTimeout(() => {
             this.cansetdirection = true;
-        }, 200)
+        }, 250)
     }
 
     appleEaten() {
@@ -281,6 +286,7 @@ class SnakeMover {
     endGame() {
         let gameOverDiv = document.getElementById("ended");
         gameOverDiv.style.display = "block";
+        this.allowedtoplay = false;
     }
 
     setNewRotation(key) {
@@ -288,6 +294,36 @@ class SnakeMover {
 
         if(addRotation) {
             this.currentrotation += addRotation
+        }
+    }
+
+    calculateClickMovement(event) {
+        let [snakeX, snakeY] = this.snakehead.getLocation()
+        let {width: snakeWidth, height: snakeHeight} = this.snakehead.mydiv.getBoundingClientRect();
+        
+        let clickX = Math.round(event.offsetX / snakeWidth);
+        let clickY = Math.round(event.offsetY / snakeHeight);
+
+        let differenceX = clickX - snakeX;
+        let differenceY = clickY - snakeY;
+
+        if(["w","s"].includes(this.currentkey)) {
+            // Only look at differenceX
+            if(differenceX > 0) {
+                this.setDirection("d")
+            }
+            if(differenceX < 0) {
+                this.setDirection("a")
+            }
+        }
+        else if (["a", "d"].includes(this.currentkey)) {
+            // Only look at differenceY
+            if(differenceY > 0) {
+                this.setDirection("s")
+            }
+            if(differenceY < 0) {
+                this.setDirection("w")
+            }
         }
     }
 }
@@ -314,7 +350,33 @@ function initializeListeners(snakeMover) {
         }
     })
 
+    let gameContainer = document.getElementById("snakegame-container");
+
+    gameContainer.addEventListener('click', (event) => {
+        snakeMover.calculateClickMovement(event);
+    })
+
+    // UI
+    let startButton = document.getElementById("pause");
+
+    startButton.addEventListener('click', (event) => {
+        if(startButton.classList.contains("unpaused")) {
+            snakeMover.stop();
+            startButton.classList.remove("unpaused")
+            startButton.classList.add("paused")
+            startButton.innerHTML = "Resume";
+        } else {
+            snakeMover.start();
+            if(startButton.classList.contains("paused")) {
+                startButton.classList.remove("paused")
+            }
+            startButton.classList.add("unpaused")
+            startButton.innerHTML = "Pause"
+        }
+    })
 }
 
 let newGame = initializeGame();
 newGame.start();
+
+

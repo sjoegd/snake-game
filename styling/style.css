@@ -74,3 +74,7 @@ body {
     border-radius: 50%;
 }
 
+/* UI */
+#pause {
+    margin: 1rem;
+}
