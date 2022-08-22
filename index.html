@@ -4,29 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styling/style.css">
-    <script src="javascript/snake.js" defer></script>
+    <link rel="stylesheet" href="./styling/style.css">
+    <script type="module" src="./javascript/SnakeGame.js" defer></script>
     <title>Snake Game</title>
 </head>
 <body>
-    <h1 id="ended">GAME OVER <br> 
-        <button id="restart">RESTART</button>
-    </h1>
-    <div id="snakegame-ui" class="">
-        <button id="pause" class="unpaused">Pause</button>
-        <span>Score: <span id="score">0</span></span>
+    <div id="ui_container">
+
     </div>
-    <div id="snakegame-container">
-        <div id="head" class="node">
-            <div class="eye left"></div>
-            <div class="tongue"></div>
-            <div class="eye right"></div>
-        </div>
-        <div class="node"></div>
-        <div class="node"></div>
-        <div id="apple">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5"><defs><clipPath id="a"><path d="M0 38h38V0H0v38Z"/></clipPath></defs><g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 0 47.5)"><path fill="#dd2e44" d="M25 30c-3 0-3-1-6-1s-3 1-6 1c-4 0-9-2-9-9C4 10 10 1 14 1c3 0 3 1 5 1s2-1 5-1c4 0 10 9 10 20 0 7-5 9-9 9"/><path fill="#77b255" d="M20 30s3 4 8 4c4 0 6-2 6-2s-4-3-7-3-7 1-7 1"/><path fill="#662113" d="M19 27a1 1 0 0 0-1 1c0 3.441 1.2 6.615 3.293 8.707a1 1 0 1 0 1.415-1.414C20.987 33.573 20 30.915 20 28a1 1 0 0 0-1-1"/></g></svg>
-        </div>
+    <div id="game_container">
+
     </div>
 </body>
 </html>
