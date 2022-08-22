@@ -1,30 +1,27 @@
-// Class for apple
-
 export default class Apple {
 
-    constructor(div) {
+    constructor(div, size) {
         this._div = div;
-        div.style.display = "none";
+        this._size = size;
     }
 
-    generateLocation(gridsize, size) {
+    generateLocation(gridsize) {
         const MIN = 1;
         const MAX = 1; 
 
-        let possible_locations = gridsize/size - MIN - MAX; 
+        let possible_locations = gridsize/this._size - MIN - MAX; 
         
         return {
-            column: Math.floor((Math.random() * possible_locations) + MIN) * size + 1,
-            row: Math.floor((Math.random() * possible_locations) + MIN) * size + 1
+            column: Math.floor((Math.random() * possible_locations) + MIN) * this._size + 1,
+            row: Math.floor((Math.random() * possible_locations) + MIN) * this._size + 1
         };
     }
 
-    setLocation({column, row}, size) {
+    setLocation({column, row}) {
         this._column = column;
         this._row = row;
-        this._div.style.gridColumn = `${column} / span ${size}`;
-        this._div.style.gridRow = `${row} / span ${size}`;
-        this._div.style.display = "block";
+        this._div.style.gridColumn = `${column} / span ${this._size}`;
+        this._div.style.gridRow = `${row} / span ${this._size}`;
     }
 
     getLocation() {

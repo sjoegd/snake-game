@@ -1,6 +1,9 @@
 :root {
     font-size: 16px;
     --snake-color: #a0c432;
+    --bg-color: linear-gradient(var(--bg-c2) 0%, var(--bg-c1) 100%);
+    --bg-c1: #F78104;
+    --bg-c2: #FAAB36;
 }
 
 * {
@@ -20,16 +23,46 @@ body {
 #game_container {
     width: 90vmin; 
     height: 90vmin;
-    background: grey;
+    background: var(--bg-color);
     display: grid;
-    grid-template: repeat(128, 1fr) / repeat(128, 1fr);
+    grid-template: repeat(192, 1fr) / repeat(192, 1fr);
 }
 
 #apple {
-    background: red;
-    border: 1px solid black;
+    grid-row: 1 / span 12;
+    grid-column: 1 / span 12;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#apple svg {
+    width: 60%;
+    height: 60%;
 }
 
 .node {
-    background: black;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    rotate: 90deg;
 }
+.node-bg {
+    width: 50%;
+    height: 100%;
+    background: #a0c432;
+    border-radius: 10%;
+}
+
+#head {
+    grid-row: 13 / span 12;
+    grid-column: 37 / span 12;
+    background: none;
+}
+
+#head svg {
+    rotate: 180deg;
+}
+
