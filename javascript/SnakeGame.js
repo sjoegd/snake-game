@@ -1,3 +1,5 @@
+import GameHandler from "./modules/GameHandler.js";
+
 /**
  * TODO:
  * Completely refractor game with:
@@ -17,5 +19,7 @@ function initializeGame() {
     // return function with UI functionality
 
 }
+
+
 
 
