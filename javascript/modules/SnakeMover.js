@@ -1,4 +1,3 @@
-// Class which manages snakes movement, the apple, and the snake
 
 /**
  * Snake direction:
@@ -9,8 +8,6 @@
  * }
  * 
  */
-
-
 
 export default class SnakeMover {
 
