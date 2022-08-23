@@ -3,6 +3,7 @@ export default class SnakeNode {
     _queue = []
 
     constructor(div, size, position, queue) {
+        div.style.display = "flex"
         this._div = div;
         this._size = size;
         this.setPosition(position);

@@ -1,43 +1,31 @@
-import Apple from "./modules/Apple.js"
+import Apple from "./modules/Apple.js";
 import Snake from "./modules/Snake.js";
+import SnakeMover from "./modules/SnakeMover.js";
 
 /**
  * TODO:
- * Completely refractor game with:
- *      - 192*192 grid for smooth movement
- *      - size = 12 for everything
- *      - SVG for whole head (or something similar)
- *      - Better system for moving
- *      - Rotations system for whole snake (and border-radius calculation on purely node after head)
+ * Make movement system smoother (for both input and snake itself)
+ * Implement an UI.
+ * Animation for apple eating (and maybe dying)
+ * Sounds?
  */
 
+const MATRIX_SIZE = 192;
+const SIZE = 8;
 
-
-//  TESTING
 let container = document.getElementById("game_container")
 
 let appleDiv = document.getElementById("apple");
-let apple = new Apple(appleDiv, 12);
+let apple = new Apple(appleDiv, SIZE);
+apple.setPosition(apple.generatePosition(MATRIX_SIZE))
 
 let [snakeDiv, node1, node2] = document.getElementsByClassName("node");
-let head = new Snake(snakeDiv, 12)
+let snake = new Snake(snakeDiv, SIZE)
+snake.initFirstNodes(node1, node2);
 
-head.initFirstNodes(node1, node2);
+let snakeMover = new SnakeMover(container, snake, apple, SIZE, MATRIX_SIZE);
+snakeMover.start();
 
-async function headMover() {
-    while(true) {
-        await new Promise((resolve) => {
-            setTimeout(resolve, 30)
-        })
-        head.move({
-            column: 1,
-            row: 0,
-            rotation: 90
-        })
-    }
-}
-//headMover();
 
-// END TESTING
 
 

@@ -6,8 +6,8 @@ export default class Snake extends SnakeNode {
 
     constructor(div, size) {
         super(div, size, {
-            column: 37,
-            row: 13,    // current snake pos
+            column: size*3 + 1,
+            row: size + 1,    // current snake pos
             rotation: 90
         });
     }
@@ -51,8 +51,21 @@ export default class Snake extends SnakeNode {
     move(direction) { // direction: {column, row, rotation}
         super.move(direction)
         for(let node of this.body) {
-            direction = node.move(direction)
+            direction = node.move(direction) // move returns last move of that node
         }
     }
 
+    getNodePositions() {
+        let positions = [];
+        for(let node of this.body) {
+            positions.push(node.getPosition());
+        }
+        return positions;
+    }
+
+    getAllPositions() {
+        let positions = this.getNodePositions();
+        positions.unshift(this.getPosition());
+        return positions;
+    }
 }
