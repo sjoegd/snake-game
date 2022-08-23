@@ -14,34 +14,31 @@
 
 export default class SnakeMover {
 
-    _speed = 17.5; //ms
+    _speed = 16; //ms
 
     _directions = {
         "w": {
             column: 0,
             row: -1,
-            rotation: 0
         },
         "a": {
             column: -1,
             row: 0,
-            rotation: 270
         },
         "s": {
             column: 0,
             row: 1,
-            rotation: 180
         },
         "d": {
             column: 1,
             row: 0,
-            rotation: 90
         }
     }
 
     _current_direction = "d"
+    _current_rotation = 90;
 
-    //TODO: make queue for smoother movement?
+    //TODO: smoother?
     _asked_direction = {
         asked: false,
         key: undefined
@@ -72,7 +69,9 @@ export default class SnakeMover {
                 return;
             }
 
-            this._snake.move(this._directions[this._current_direction])
+            let direction = Object.assign({}, this._directions[this._current_direction])
+            direction.rotation = this._current_rotation
+            this._snake.move(direction)
 
             let snakePos = this._snake.getPosition();
             this.checkSnakeSpot(snakePos);
@@ -90,7 +89,11 @@ export default class SnakeMover {
     setNewDirection() {
         if(this._asked_direction.asked) {
             if(this._asked_direction.key) {
-                this._current_direction = this._asked_direction.key
+                let rotation_to_add = this.getNewRotationAdd(this._current_direction, this._asked_direction.key)
+                this._current_rotation += rotation_to_add
+                if(rotation_to_add != 0) {
+                    this._current_direction = this._asked_direction.key
+                }
             } 
             this._asked_direction = {
                 asked: false,
@@ -100,7 +103,7 @@ export default class SnakeMover {
     }
 
     checkSnakeSpot(snakePos) {
-        if(this.snakeOutOfBounds(snakePos)) {
+        if(this.snakeOutOfBounds(snakePos) || this.snakeHitIself(snakePos)) {
             // end game
             this.stop();
             return;
@@ -121,6 +124,61 @@ export default class SnakeMover {
         return ((position.column < 1 || position.row < 1) || 
                 ((position.column + this._size) > this._matrixsize + 1) ||
                 ((position.row + this._size) > this._matrixsize + 1))
+    }
+
+    snakeHitIself(position) {
+        if(!this.isValidHitItselfSpot(position)) {
+            return false;
+        }
+
+        let nodePositions = this._snake.getNodePositions();
+        for(let nodePos of nodePositions) {
+            if(this.nodesConnect(position, nodePos)) {
+                return true
+            }
+        }
+        return false;
+    }
+
+    isValidHitItselfSpot(position) {
+        return (position.column % this._size == 2 || position.row % this._size == 2 ||
+                position.column % this._size == (this._size - 2) || position.row % this._size == (this._size - 2));
+    }
+
+    nodesConnect(pos1, pos2) {
+        let pos1_corners = {
+            270: {
+                column: pos1.column,
+                row: pos1.row + (this._size/2)
+            },
+            0: {
+                column: pos1.column + (this._size/2),
+                row: pos1.row
+            },
+            90: {
+                column: pos1.column + this._size,
+                row: pos1.row + (this._size/2)
+            },
+            180: {
+                column: pos1.column + (this._size/2),
+                row: pos1.row + this._size
+            }
+        }
+
+        let rotation = pos1.rotation % 360
+
+        if(rotation < 0) {
+            rotation = 360 + rotation
+        }
+
+        let border_tocheck = pos1_corners[rotation]
+
+        return (this.inBetween(border_tocheck.column, pos2.column, pos2.column + this._size) && 
+                this.inBetween(border_tocheck.row, pos2.row, pos2.row + this._size))
+    }
+
+    inBetween(number, x, y) {
+        return(number > x && number < y)
     }
 
     snakeEatsApple(position) {
@@ -159,6 +217,42 @@ export default class SnakeMover {
 
     isValidBlockSpot(position) {
         return (position.column % this._size == 1 && position.row % this._size == 1);
+    }
+
+    getNewRotationAdd(currentkey, newkey) {
+        function getRotationToAdd(currentkey) {
+            switch(currentkey) {
+                case "w":
+                    return {
+                        "w": 0, 
+                        "s": 0,
+                        "a": -90,
+                        "d": 90
+                    }
+                case "a":
+                    return {
+                        "w": 90, 
+                        "s": -90,
+                        "a": 0,
+                        "d": 0
+                    }
+                case "d":
+                    return {
+                        "w": -90, 
+                        "s": 90,
+                        "a": 0,
+                        "d": 0
+                    }
+                case "s":
+                    return {
+                        "w": 0, 
+                        "s": 0,
+                        "a": 90,
+                        "d": -90
+                    }
+            }
+        }
+        return getRotationToAdd(currentkey)[newkey];
     }
 
     initializeListeners() {

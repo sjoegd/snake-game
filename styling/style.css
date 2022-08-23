@@ -45,21 +45,27 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    rotate: 90deg;
     transition: all 25ms ease;
     display: none;
+    border-radius: 20%;
+}
+.node:last-child {
+    padding: 0 5%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
 }
 .node-bg {
-    width: 85%;
+    width: 95%;
     height: 100%;
     background: var(--snake-color);
-    border-radius: 10%;
+    border-radius: inherit;
 }
 
 #head {
     background: none;
     overflow: visible;
     z-index: 1;
+    transition: all 75ms ease;
 }
 
 #head svg {

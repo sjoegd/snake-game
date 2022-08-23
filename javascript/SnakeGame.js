@@ -4,7 +4,7 @@ import SnakeMover from "./modules/SnakeMover.js";
 
 /**
  * TODO:
- * Make movement system smoother (for both input and snake itself)
+ * Make movement system better (for both input and snake itself)
  * Implement an UI.
  * Animation for apple eating (and maybe dying)
  * Sounds?
