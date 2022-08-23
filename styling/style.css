@@ -4,6 +4,7 @@
     --bg-color: linear-gradient(var(--bg-c2) 0%, var(--bg-c1) 100%);
     --bg-c1: #F78104;
     --bg-c2: #FAAB36;
+    --end-color: white;
 }
 
 * {
@@ -20,12 +21,27 @@ body {
     width: 100vw;
 }
 
+#ui_container {
+    width: 90vmin;
+}
+
 #game_container {
     width: 90vmin; 
     height: 90vmin;
     background: var(--bg-color);
     display: grid;
     grid-template: repeat(193, 1fr) / repeat(193, 1fr); /* MATRIX_SIZE + 1 */
+}
+
+#gameover {
+    color: var(--end-color);
+    font-size: 10vmin;
+    position: fixed;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    display: none;
+    z-index: 2;
 }
 
 #apple {

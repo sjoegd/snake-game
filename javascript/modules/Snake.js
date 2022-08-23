@@ -51,7 +51,7 @@ export default class Snake extends SnakeNode {
     move(direction) { // direction: {column, row, rotation}
         super.move(direction)
         for(let node of this.body) {
-            direction = node.move(direction) // move returns last move of that node
+            direction = node.move(direction) // move returns the move comitted by that node
         }
     }
 

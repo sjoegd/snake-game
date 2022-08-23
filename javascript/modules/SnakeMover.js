@@ -66,13 +66,13 @@ export default class SnakeMover {
                 return;
             }
 
-            let direction = Object.assign({}, this._directions[this._current_direction])
+            let direction = this._directions[this._current_direction]
             direction.rotation = this._current_rotation
             this._snake.move(direction)
 
             let snakePos = this._snake.getPosition();
             this.checkSnakeSpot(snakePos);
-
+            
         }, this._speed)
     }
 
@@ -102,7 +102,7 @@ export default class SnakeMover {
     checkSnakeSpot(snakePos) {
         if(this.snakeOutOfBounds(snakePos) || this.snakeHitIself(snakePos)) {
             // end game
-            this.stop();
+            this.endGame();
             return;
         }
 
@@ -185,6 +185,7 @@ export default class SnakeMover {
 
     appleEaten() {
         this._snake.addNode(this.createNewNode());
+        this.updateScore(1);
         let newApplePos = this._apple.generatePosition(this._matrixsize);
         while(!this.isValidApplePosition(newApplePos)) {
             newApplePos = this._apple.generatePosition(this._matrixsize);
@@ -210,6 +211,12 @@ export default class SnakeMover {
         node.appendChild(nodebg);
         this._container.appendChild(node);
         return node;
+    }
+
+    updateScore(number) {
+        let score = document.getElementById("score")
+        let current = +score.innerHTML;
+        score.innerHTML = current + number;
     }
 
     isValidBlockSpot(position) {
@@ -250,6 +257,13 @@ export default class SnakeMover {
             }
         }
         return getRotationToAdd(currentkey)[newkey];
+    }
+
+    endGame() {
+        this.stop();
+        this._container.style.filter = "brightness(0.5)"
+        let gameover = document.getElementById("gameover")
+        gameover.style.display = "block";
     }
 
     initializeListeners() {
