@@ -41,8 +41,9 @@ export default class SnakeMover {
         key: undefined
     }
 
-    constructor(container, snake, apple, size, matrixsize) {
+    constructor(container, overlay_container, snake, apple, size, matrixsize) {
         this._container = container;
+        this._overlay_container = overlay_container;
         this._snake = snake;
         this._apple = apple;
         this._size = size;
@@ -51,12 +52,22 @@ export default class SnakeMover {
     }
 
     start() {
+        this._container.style.filter = "brightness(1)"
+        this._overlay_container.style.display = "none";
         this.playing = true;
         this.snakeMover();
     }
 
     stop() {
         this.playing = false;
+    }
+
+    endGame() {
+        this.stop();
+        //this._overlay_container.style.display = "block";
+        setTimeout(() => {
+            location.reload();  //temp
+        }, 100)
     }
 
     async snakeMover() {
@@ -257,13 +268,6 @@ export default class SnakeMover {
             }
         }
         return getRotationToAdd(currentkey)[newkey];
-    }
-
-    endGame() {
-        this.stop();
-        this._container.style.filter = "brightness(0.5)"
-        let gameover = document.getElementById("gameover")
-        gameover.style.display = "block";
     }
 
     initializeListeners() {

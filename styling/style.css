@@ -1,7 +1,7 @@
 :root {
-    font-size: 16px;
+    font-size: 10px;
     --snake-color: #a0c432;
-    --bg-color: linear-gradient(var(--bg-c2) 0%, var(--bg-c1) 100%);
+    --bg-color: var(--bg-c2);
     --bg-c1: #F78104;
     --bg-c2: #FAAB36;
     --end-color: white;
@@ -13,35 +13,81 @@
 
 body {
     margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* UI */
+
+#ui_wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
+    height: 100vmin;
+    width: 100vmin;
+    position: relative;
+}
+
+.settings_button {
+    color: white;
+}
+
+#play_button {
+    color: white;
+    font-size: 5vmin;
+    text-align: center;
+}
+
+.score_container {
+    font-size: 2vmin;
+    color: white;
 }
 
 #ui_container {
-    width: 90vmin;
+    width: 85vmin;
+    padding: 2vmin 2.5vmin;
+    background: rgb(138, 69, 69);
+    display: flex;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
+
+#ui_container .settings_button {
+    margin-left: auto;
+}
+
+#game_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 85vmin;
+    width: 85vmin;
+    background: rgb(165, 88, 88);
+    position: relative;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+#overlay_container {
+    display: block;
+    position: fixed;
+    width: 45vmin;
+    height: 45vmin;
+    z-index: 2;
+}
+
+/* Game */
 
 #game_container {
-    width: 90vmin; 
-    height: 90vmin;
+    width: 80vmin; 
+    height: 80vmin;
     background: var(--bg-color);
     display: grid;
-    grid-template: repeat(193, 1fr) / repeat(193, 1fr); /* MATRIX_SIZE + 1 */
-}
-
-#gameover {
-    color: var(--end-color);
-    font-size: 10vmin;
-    position: fixed;
-    align-self: center;
-    justify-self: center;
-    text-align: center;
-    display: none;
-    z-index: 2;
 }
 
 #apple {
@@ -61,7 +107,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 25ms ease;
+    transition: all 50ms ease;
     display: none;
     border-radius: 20%;
 }
@@ -75,13 +121,14 @@ body {
     height: 100%;
     background: var(--snake-color);
     border-radius: inherit;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #head {
     background: none;
     overflow: visible;
     z-index: 1;
-    transition: all 75ms ease;
+    box-shadow: 0px 10px 13px -7px rgba(0,0,0,0.5), 0px 15px 26px 2px rgba(0,0,0,0);
 }
 
 #head svg {
@@ -91,5 +138,6 @@ body {
     rotate: 180deg;
     overflow: visible;
     bottom: -15%;
+    
 }
 
