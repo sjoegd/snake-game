@@ -26,7 +26,7 @@ The snake is represented in the Snake class, which actually represents the head 
     
 __How does the snake move?__
 
-To make the snake move, css grid is used. A big matrix of 192 grid blocks(by default) is made and the snake moves 1 block (based on speed) around every 20ms, but the snake's size itself is 8x8 blocks by default. This creates a smooth movement for the snake and to make sure the snake can only move in 8x8 rows and columns it can only rotate when it is at the beginning of such a block (this is calculated in the SnakeMover class)
+To make the snake move, css grid is used. A big matrix of 192 grid blocks(by default) is made and the snake moves 1 block (based on speed) around every 20ms, but the snake's size itself is 8x8 blocks by default. This creates a smooth movement for the snake and to make sure the snake can only move in 8x8 rows and columns it can only rotate when it is at the beginning of such a block (this is managed in the SnakeMover class)
 
 ## Made by
 This project was entirely made by Sjoegd
