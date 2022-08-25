@@ -36,7 +36,6 @@ export default class SnakeMover {
     _current_rotation = 90;
     _current_score = 0;
 
-    //TODO: smoother?
     _asked_direction = {
         asked: false,
         key: undefined
@@ -55,19 +54,32 @@ export default class SnakeMover {
     }
 
     start() {
+        this._snake._div.style.transform = "" // bad practice
         this._apple.turnOnAnimation();
         this.playing = true;
         this.snakeMover();
     }
 
     stop() {
-        this.playing = false;
         this._apple.turnOffAnimation();
+        this.playing = false;
     }
 
-    endGame() {
+    endGame(timeout) {
         this.stop();
-        this._game_manager.gameEnded(this._current_score);
+        this.fixSnakeHead();
+        timeout ?
+        setTimeout(() => {
+            this._game_manager.gameEnded(this._current_score)
+        }, 500) : this._game_manager.gameEnded(this._current_score)
+    }
+
+    // Bad practice but otherwise i would have to change the whole system
+    fixSnakeHead() {
+        let pos = this._snake.getPosition();
+        if(pos.column + this._size - 1 > this._matrixsize || pos.row + this._size - 1 > this._matrixsize) {
+            this._snake._div.style.transform = "scale(1.15)"
+        }
     }
 
     async snakeMover() {
@@ -87,33 +99,9 @@ export default class SnakeMover {
         }, this._speed)
     }
 
-    askNewDirection(key) {
-        this._asked_direction = {
-            asked: true,
-            key
-        }
-    }
-
-    setNewDirection() {
-        if(this._asked_direction.asked) {
-            if(this._asked_direction.key) {
-                let rotation_to_add = this.getNewRotationAdd(this._current_direction, this._asked_direction.key)
-                this._current_rotation += rotation_to_add
-                if(rotation_to_add != 0) {
-                    this._current_direction = this._asked_direction.key
-                }
-            } 
-            this._asked_direction = {
-                asked: false,
-                key: undefined
-            }
-        }
-    }
-
     checkSnakeSpot(snakePos) {
         if(this.snakeOutOfBounds(snakePos) || this.snakeHitIself(snakePos)) {
-            // end game
-            this.endGame();
+            this.endGame(true);
             return;
         }
 
@@ -126,6 +114,10 @@ export default class SnakeMover {
         if(this.snakeEatsApple(snakePos)) {
            this.appleEaten();
         }
+    }
+
+    isValidBlockSpot(position) {
+        return (position.column % this._size == 1 && position.row % this._size == 1);
     }
 
     snakeOutOfBounds(position) {
@@ -155,10 +147,6 @@ export default class SnakeMover {
 
     nodesConnect(pos1, pos2) {
         let pos1_corners = {
-            270: {
-                column: pos1.column,
-                row: pos1.row + (this._size/2)
-            },
             0: {
                 column: pos1.column + (this._size/2),
                 row: pos1.row
@@ -170,6 +158,10 @@ export default class SnakeMover {
             180: {
                 column: pos1.column + (this._size/2),
                 row: pos1.row + this._size
+            },
+            270: {
+                column: pos1.column,
+                row: pos1.row + (this._size/2)
             }
         }
 
@@ -229,17 +221,52 @@ export default class SnakeMover {
         this._scorediv.innerHTML = this._current_score
     }
 
-    isValidBlockSpot(position) {
-        return (position.column % this._size == 1 && position.row % this._size == 1);
+    askNewDirection(key) {
+        if(!this.isValidDirection(this._current_direction, key)) {
+            return;
+        }
+
+        this._asked_direction = {
+            asked: true,
+            key
+        }
+    }
+
+    isValidDirection(currentkey, key) {
+        if(currentkey == key) {
+            return false;
+        }
+        switch(currentkey) {
+            case "w":
+                return (key != "s")
+            case "a":
+                return (key != "d")
+            case "s":
+                return (key != "w")
+            case "d":
+                return(key != "a")
+        }
+        return false
+    }
+
+    setNewDirection() {
+        if(this._asked_direction.asked) {
+            if(this._asked_direction.key) {
+                this._current_rotation += this.getNewRotationAdd(this._current_direction, this._asked_direction.key)
+                this._current_direction = this._asked_direction.key
+            } 
+            this._asked_direction = {
+                asked: false,
+                key: undefined
+            }
+        }
     }
 
     getNewRotationAdd(currentkey, newkey) {
-        function getRotationToAdd(currentkey) {
-            switch(currentkey) {
+        function getRotationToAdd(key) {
+            switch(key) {
                 case "w":
                     return {
-                        "w": 0, 
-                        "s": 0,
                         "a": -90,
                         "d": 90
                     }
@@ -247,26 +274,20 @@ export default class SnakeMover {
                     return {
                         "w": 90, 
                         "s": -90,
-                        "a": 0,
-                        "d": 0
                     }
                 case "d":
                     return {
                         "w": -90, 
                         "s": 90,
-                        "a": 0,
-                        "d": 0
                     }
                 case "s":
                     return {
-                        "w": 0, 
-                        "s": 0,
                         "a": 90,
                         "d": -90
                     }
             }
         }
-        return getRotationToAdd(currentkey)[newkey];
+        return getRotationToAdd(currentkey)[newkey] ?? 0;
     }
 
     initializeListeners() {

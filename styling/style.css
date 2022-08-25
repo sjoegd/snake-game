@@ -1,5 +1,5 @@
 :root {
-    font-size: 10px;
+    font-size: 1vmin;
     --snake-color: #a0c432;
     --bg-color: #FAAB36;
     --bg-color2: rgb(165, 88, 88);
@@ -7,6 +7,7 @@
     --bg-color-overlay: rgba(160, 47, 47, 0.993);
     --bg-color-overlay-hover: rgb(128, 42, 42);
     --text-color: white;
+
 }
 
 * {
@@ -41,9 +42,9 @@ div {
     align-items: center;
     justify-content: center;
     position: relative;
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 10px;
+    -webkit-box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
 }
 
 #ui_container {
@@ -112,14 +113,14 @@ div {
     width: 90%;
     margin: 0 auto;
     background: var(--bg-color-overlay);
-    border-radius: 10px;
+    border-radius: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 5vmin;
     color: var(--text-color);
-    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.2), 0 0.3rem 1rem 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.2), 0 0.3rem 1rem 0 rgba(0, 0, 0, 0.19);
 }
 .overlay_button:hover {
     background: var(--bg-color-overlay-hover);
@@ -130,27 +131,59 @@ div {
 }
 #play_button svg {
     width: 3vmin;
-    fill: white;
+    fill: var(--text-color);
     margin-right: 5%;
 }
 
-.overlay_score_wrapper {
+.overlay_box {
     grid-area: 1 / 1 / 2 / 3;
     width: 90%;
     height: 90%;
     margin: 7.5% auto;
-    border-radius: 10px;
-    background-image: url("../images/snake.bmp"); 
-    background-repeat: repeat-x;
-    background-size: contain;
+    border-radius: 1rem;
     background-color: var(--bg-color-overlay);
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
+    -webkit-box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
     flex-direction: column;
     align-items: center;
+    color: var(--text-color);
+}
+
+.settings_wrapper {
+    display: none;
+}
+.settings_wrapper h1 {
+    margin: 1rem;
+    font-size: 3.5vmin
+}
+.settings_h2 {
+    margin: 0.5rem;
+    font-size: 2vmin;
+    font-style: italic;
+}
+.settings {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 0;
+    width: 80%;
+}
+.settings_block {
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+.settings_list {
+    margin: 0;
+}
+
+.overlay_score_wrapper {
+    background-image: url("../images/snake.png"); 
+    background-repeat: repeat-x;
+    background-size: contain;
+    display: flex;
     justify-content: center;
-    padding-top: 50%;
+    padding-top: 60%;
 }
 
 .overlay_score, .overlay_highscore {
@@ -161,12 +194,22 @@ div {
 
 /* Game */
 
+.game_background {
+    --n: 24;
+    --b: 0.1rem;
+
+    background:
+        conic-gradient(from 90deg at var(--b) var(--b),
+        var(--bg-color) 90deg, var(--bg-color2) 0) calc(-1*var(--b)) calc(-1*var(--b))/
+        calc(100%/var(--n)) calc(100%/var(--n)); 
+    
+    filter: brightness(0.75); 
+}
+
 #game_container {
     width: 85vmin; 
     height: 85vmin;
-    background: var(--bg-color);
     display: grid;
-    filter: brightness(0.75) 
 }
 
 #apple {
@@ -212,16 +255,16 @@ div {
     height: 100%;
     background: var(--snake-color);
     border-radius: inherit;
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
 }
 
 #head {
     background: none;
     overflow: visible;
     z-index: 1;
-    -webkit-box-shadow: 0px 7px 13px -7px rgba(0,0,0,0.5), 0px 8px 26px 2px rgba(0,0,0,0);
-    box-shadow: 0px 7px 13px -7px rgba(0,0,0,0.5), 0px 8px 26px 2px rgba(0,0,0,0);
+    -webkit-box-shadow: 0 0.75rem 1.2rem -0.75rem rgba(0,0,0,0.5), 0 0.75rem 2.6rem 0.2rem rgba(0,0,0,0);
+    box-shadow: 0 0.75rem 1.2rem -0.75rem rgba(0,0,0,0.5), 0 0.75rem 2.6rem 0.2rem rgba(0,0,0,0);
 }
 
 #head svg {

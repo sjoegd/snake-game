@@ -2,7 +2,7 @@ import SnakeNode from "./SnakeNode.js";
 
 export default class Snake extends SnakeNode {
 
-    body = [];
+    _body = [];
 
     constructor(div, size) {
         super(div, size, {
@@ -26,12 +26,12 @@ export default class Snake extends SnakeNode {
 
     addNode(nodeDiv, position, queue) {
         let node = new SnakeNode(nodeDiv, this._size, position ?? this.getEndPosition(), queue ?? this.generateNewQueue()) 
-        this.body.push(node);
+        this._body.push(node);
     }
 
     getEndPosition() {
-        if(this.body.length > 0) {
-            let lastNode = this.body[this.body.length - 1]
+        if(this._body.length > 0) {
+            let lastNode = this._body[this._body.length - 1]
             return lastNode.getPosition();
         }
         else return this.getPosition();
@@ -51,14 +51,14 @@ export default class Snake extends SnakeNode {
 
     move(direction) { 
         super.move(direction)
-        for(let node of this.body) {
+        for(let node of this._body) {
             direction = node.move(direction) // move returns the move comitted by that node
         }
     }
 
     getNodePositions() {
         let positions = [];
-        for(let node of this.body) {
+        for(let node of this._body) {
             positions.push(node.getPosition());
         }
         return positions;
