@@ -198,10 +198,11 @@ div {
     --n: 24;
     --b: 0.1rem;
 
-    background:
+    /*background:
         conic-gradient(from 90deg at var(--b) var(--b),
         var(--bg-color) 90deg, var(--bg-color2) 0) calc(-1*var(--b)) calc(-1*var(--b))/
-        calc(100%/var(--n)) calc(100%/var(--n)); 
+        calc(100%/var(--n)) calc(100%/var(--n)); */
+    background: var(--bg-color);
     
     filter: brightness(0.75); 
 }
