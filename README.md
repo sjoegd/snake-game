@@ -3,7 +3,7 @@ A snake game on the web
 
 ## How to play 
  The game is currently being hosted on https://sjoegd.github.io/snake-game/,
- to play it simple go there and click play :).
+ to play it simple go there and click play.
  
  The movement is pretty simple, use the WASD keys to move up(w) left(a) down(s) and right(d)
  and to pause the game you can either press ESC or click the menu button at the top right corner of the game.
