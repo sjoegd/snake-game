@@ -34,6 +34,7 @@ export default class SnakeMover {
 
     _current_direction = "d"
     _current_rotation = 90;
+    _current_score = 0;
 
     //TODO: smoother?
     _asked_direction = {
@@ -41,33 +42,32 @@ export default class SnakeMover {
         key: undefined
     }
 
-    constructor(container, overlay_container, snake, apple, size, matrixsize) {
+    constructor(container, game_manager ,snake, apple, size, matrixsize) {
         this._container = container;
-        this._overlay_container = overlay_container;
+        this._game_manager = game_manager;
         this._snake = snake;
         this._apple = apple;
         this._size = size;
         this._matrixsize = matrixsize;
+        this._scorediv = document.getElementById("score");
+        this._scorediv.innerHTML = this._current_score;
         this.initializeListeners();
     }
 
     start() {
-        this._container.style.filter = "brightness(1)"
-        this._overlay_container.style.display = "none";
+        this._apple.turnOnAnimation();
         this.playing = true;
         this.snakeMover();
     }
 
     stop() {
         this.playing = false;
+        this._apple.turnOffAnimation();
     }
 
     endGame() {
         this.stop();
-        //this._overlay_container.style.display = "block";
-        setTimeout(() => {
-            location.reload();  //temp
-        }, 100)
+        this._game_manager.gameEnded(this._current_score);
     }
 
     async snakeMover() {
@@ -225,9 +225,8 @@ export default class SnakeMover {
     }
 
     updateScore(number) {
-        let score = document.getElementById("score")
-        let current = +score.innerHTML;
-        score.innerHTML = current + number;
+        this._current_score += number
+        this._scorediv.innerHTML = this._current_score
     }
 
     isValidBlockSpot(position) {
@@ -271,7 +270,7 @@ export default class SnakeMover {
     }
 
     initializeListeners() {
-        window.addEventListener('keypress', (event) => {
+        window.addEventListener("keydown", (event) => {
             if(["w","a","s","d"].includes(event.key)) {
                 this.askNewDirection(event.key);
             }

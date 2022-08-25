@@ -13,14 +13,15 @@ export default class Snake extends SnakeNode {
     }
 
     initFirstNodes(node1, node2) {
-        let node1pos = Object.assign({}, this.getPosition())
-        node1pos.column -= this._size;
-        let node1queue = this.generateNewQueue(1, 0);
-        this.addNode(node1, node1pos, node1queue)
-        let node2pos = node1pos
-        node2pos.column -= this._size;
-        let node2queue = this.generateNewQueue(1, 0);
-        this.addNode(node2, node2pos, node2queue)
+        let node1_pos = Object.assign({}, this.getPosition())
+        node1_pos.column -= this._size;
+        let node1_queue = this.generateNewQueue(1, 0);
+        this.addNode(node1, node1_pos, node1_queue)
+
+        let node2_pos = Object.assign({}, node1_pos);
+        node2_pos.column -= this._size;
+        let node2_queue = this.generateNewQueue(1, 0);
+        this.addNode(node2, node2_pos, node2_queue)
     }
 
     addNode(nodeDiv, position, queue) {
@@ -29,7 +30,7 @@ export default class Snake extends SnakeNode {
     }
 
     getEndPosition() {
-        if(this.body.length > 1) {
+        if(this.body.length > 0) {
             let lastNode = this.body[this.body.length - 1]
             return lastNode.getPosition();
         }
@@ -48,7 +49,7 @@ export default class Snake extends SnakeNode {
         return queue;
     }
 
-    move(direction) { // direction: {column, row, rotation}
+    move(direction) { 
         super.move(direction)
         for(let node of this.body) {
             direction = node.move(direction) // move returns the move comitted by that node

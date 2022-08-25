@@ -3,14 +3,21 @@ export default class Apple {
     constructor(div, size) {
         this._div = div;
         this._size = size;
+        this._mysvg = document.querySelector("#apple svg");
+    }
+
+    turnOnAnimation() {
+        this._mysvg.style.animation =  "applesize 2s infinite";
+    }
+
+    turnOffAnimation() {
+        this._mysvg.style.animation =  "";
     }
 
     generatePosition(matrixsize) {
         const MIN = 1;
         const MAX = 1; 
-
         let possible_locations = matrixsize/this._size - MIN - MAX; 
-        
         return {
             column: Math.floor((Math.random() * possible_locations) + MIN) * this._size + 1,
             row: Math.floor((Math.random() * possible_locations) + MIN) * this._size + 1

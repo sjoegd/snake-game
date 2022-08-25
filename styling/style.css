@@ -1,10 +1,12 @@
 :root {
     font-size: 10px;
     --snake-color: #a0c432;
-    --bg-color: var(--bg-c2);
-    --bg-c1: #F78104;
-    --bg-c2: #FAAB36;
-    --end-color: white;
+    --bg-color: #FAAB36;
+    --bg-color2: rgb(165, 88, 88);
+    --bg-color3: rgb(138, 69, 69);
+    --bg-color-overlay: rgba(160, 47, 47, 0.993);
+    --bg-color-overlay-hover: rgb(128, 42, 42);
+    --text-color: white;
 }
 
 * {
@@ -20,6 +22,17 @@ body {
     justify-content: center;
 }
 
+/* From: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+div {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
 /* UI */
 
 #ui_wrapper {
@@ -27,37 +40,38 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vmin;
-    width: 100vmin;
     position: relative;
-}
-
-.settings_button {
-    color: white;
-}
-
-#play_button {
-    color: white;
-    font-size: 5vmin;
-    text-align: center;
-}
-
-.score_container {
-    font-size: 2vmin;
-    color: white;
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
 }
 
 #ui_container {
-    width: 85vmin;
-    padding: 2vmin 2.5vmin;
-    background: rgb(138, 69, 69);
+    width: 90vmin;
+    padding: 1vmin 2.5vmin;
+    background: var(--bg-color3);
     display: flex;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
 
-#ui_container .settings_button {
+#menu_button {
     margin-left: auto;
+}
+#menu_button svg {
+    width: 3vmin;
+    height: 3vmin;
+    scale: 1.25;
+    fill: var(--text-color);
+}
+#menu_button:hover {
+    filter: brightness(0.75);
+}
+
+.score_container {
+    font-size: 2.3vmin;
+    color: var(--text-color);
+    margin: auto 0;
 }
 
 #game_wrapper {
@@ -65,29 +79,94 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 85vmin;
-    width: 85vmin;
-    background: rgb(165, 88, 88);
+    height: 90vmin;
+    width: 90vmin;
+    background: var(--bg-color2);
     position: relative;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
 
 #overlay_container {
-    display: block;
+    display: grid;
+    grid-template: 4fr 0.75fr / 2fr 0.75fr;
     position: fixed;
-    width: 45vmin;
-    height: 45vmin;
+    width: 35vmin;
+    height: 50vmin;
     z-index: 2;
+}
+.settings_button {
+    grid-area: 2 / 2 / 3 / 3;    
+    color: var(--text-color);
+}
+.settings_button:hover {
+    filter: brightness(0.75);
+}
+.settings_svg {
+    width: 5vmin;
+    height: 5vmin;
+    fill: var(--text-color)
+}
+
+.overlay_button {
+    width: 90%;
+    margin: 0 auto;
+    background: var(--bg-color-overlay);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vmin;
+    color: var(--text-color);
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.overlay_button:hover {
+    background: var(--bg-color-overlay-hover);
+}
+
+#play_button {
+    grid-area: 2 / 1 / 3 / 2; 
+}
+#play_button svg {
+    width: 3vmin;
+    fill: white;
+    margin-right: 5%;
+}
+
+.overlay_score_wrapper {
+    grid-area: 1 / 1 / 2 / 3;
+    width: 90%;
+    height: 90%;
+    margin: 7.5% auto;
+    border-radius: 10px;
+    background-image: url("../images/snake.bmp"); 
+    background-repeat: repeat-x;
+    background-size: contain;
+    background-color: var(--bg-color-overlay);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50%;
+}
+
+.overlay_score, .overlay_highscore {
+    font-size: 2.8vmin;
+    color: var(--text-color);
+    margin: 0.5vmin 0;
 }
 
 /* Game */
 
 #game_container {
-    width: 80vmin; 
-    height: 80vmin;
+    width: 85vmin; 
+    height: 85vmin;
     background: var(--bg-color);
     display: grid;
+    filter: brightness(0.75) 
 }
 
 #apple {
@@ -97,8 +176,20 @@ body {
     display: none;
 }
 #apple svg {
-    width: 75%;
-    height: 75%;
+    width: 85%;
+    height: 85%;
+}
+
+@keyframes applesize {
+    0% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.1);
+    }   
 }
 
 .node {
@@ -121,6 +212,7 @@ body {
     height: 100%;
     background: var(--snake-color);
     border-radius: inherit;
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -128,7 +220,8 @@ body {
     background: none;
     overflow: visible;
     z-index: 1;
-    box-shadow: 0px 10px 13px -7px rgba(0,0,0,0.5), 0px 15px 26px 2px rgba(0,0,0,0);
+    -webkit-box-shadow: 0px 7px 13px -7px rgba(0,0,0,0.5), 0px 8px 26px 2px rgba(0,0,0,0);
+    box-shadow: 0px 7px 13px -7px rgba(0,0,0,0.5), 0px 8px 26px 2px rgba(0,0,0,0);
 }
 
 #head svg {
@@ -138,6 +231,8 @@ body {
     rotate: 180deg;
     overflow: visible;
     bottom: -15%;
-    
+}
+#head svg .headcolor {
+    fill: var(--snake-color);
 }
 
