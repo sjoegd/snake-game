@@ -82,7 +82,7 @@ export default class SettingsHandler {
         this.setRootProperty(this.bg_ui, theme[this.bg_ui])
         this.setRootProperty(this.bg_overlay, theme[this.bg_overlay])
         this.setRootProperty(this.bg_overlay_hover, theme[this.bg_overlay_hover])
-        this.game_bg.style.backgroundImage = `url("../images/backgrounds/${THEME}.png")`
+        this.game_bg.style.backgroundImage = `url("../snake-game/images/backgrounds/${THEME}.png")`
     }
 
     setSelectedTheme(element) {
