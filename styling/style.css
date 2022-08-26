@@ -1,13 +1,16 @@
 :root {
     font-size: 1vmin;
     --snake-color: #a0c432;
-    --bg-color: #FAAB36;
-    --bg-color2: rgb(165, 88, 88);
-    --bg-color3: rgb(138, 69, 69);
-    --bg-color-overlay: rgba(160, 47, 47, 0.993);
-    --bg-color-overlay-hover: rgb(128, 42, 42);
-    --text-color: white;
 
+    /*
+    Handled in JS
+    --bg-wrapper
+    --bg-ui
+    --bg-overlay
+    --bg-overlay-hover
+    */
+
+    --text-color: white;
 }
 
 * {
@@ -50,7 +53,7 @@ div {
 #ui_container {
     width: 90vmin;
     padding: 1vmin 2.5vmin;
-    background: var(--bg-color3);
+    background: var(--bg-ui);
     display: flex;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
@@ -82,7 +85,7 @@ div {
     justify-content: center;
     height: 90vmin;
     width: 90vmin;
-    background: var(--bg-color2);
+    background: var(--bg-wrapper);
     position: relative;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
@@ -112,7 +115,7 @@ div {
 .overlay_button {
     width: 90%;
     margin: 0 auto;
-    background: var(--bg-color-overlay);
+    background: var(--bg-overlay);
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -123,7 +126,7 @@ div {
     box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.2), 0 0.3rem 1rem 0 rgba(0, 0, 0, 0.19);
 }
 .overlay_button:hover {
-    background: var(--bg-color-overlay-hover);
+    background: var(--bg-overlay-hover);
 }
 
 #play_button {
@@ -141,7 +144,7 @@ div {
     height: 90%;
     margin: 7.5% auto;
     border-radius: 1rem;
-    background-color: var(--bg-color-overlay);
+    background-color: var(--bg-overlay);
     -webkit-box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
     box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
     flex-direction: column;
@@ -165,16 +168,35 @@ div {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 5% 0;
     width: 80%;
 }
 .settings_block {
     height: 100%;
     text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .settings_list {
-    margin: 0;
+    margin-top: 1.2rem;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+.settings_list li {
+    font-size: 1.3rem;
+    border: solid 0.1rem var(--text-color);
+    padding: 0.4rem;
+    border-radius: 0.5rem;
+    filter: grayscale(1) brightness(0.75);
+}
+.settings_list li:hover {
+    transform: scale(1.15);
+}
+.settings_list .selected {
+    filter: none;
+    transform: scale(1.15);
 }
 
 .overlay_score_wrapper {
@@ -195,16 +217,9 @@ div {
 /* Game */
 
 .game_background {
-    --n: 24;
-    --b: 0.1rem;
-
-    /*background:
-        conic-gradient(from 90deg at var(--b) var(--b),
-        var(--bg-color) 90deg, var(--bg-color2) 0) calc(-1*var(--b)) calc(-1*var(--b))/
-        calc(100%/var(--n)) calc(100%/var(--n)); */
-    background: var(--bg-color);
-    
-    filter: brightness(0.75); 
+    --blocks: 24;
+    background-size: calc(100% / (var(--blocks) * 0.5));
+    filter: brightness(0.5); 
 }
 
 #game_container {

@@ -1,6 +1,7 @@
 import Apple from "./Apple.js";
 import Snake from "./Snake.js";
 import SnakeMover from "./SnakeMover.js";
+import SettingsHandler from "./SettingsHandler.js";
 
 export function initializeGame(MATRIX_SIZE, SIZE) {
     new GameManager(MATRIX_SIZE, SIZE)
@@ -17,20 +18,22 @@ class GameManager {
         this._container = document.getElementById("game_container");
         this._overlay_container = document.getElementById("overlay_container");
 
-        this.manageContainerBackground(this.MATRIX_SIZE, this.SIZE)
+        this.manageContainerBackground(this.MATRIX_SIZE, this.SIZE);
+        this._settings_handler = new SettingsHandler("BLUE");
 
         this.game = this.createNewGame(this.MATRIX_SIZE, this.SIZE);
-        this.initializeUIListeners();
-
+        
         this._overlay_score = document.getElementsByClassName("score_copy")[0];
         this._overlay_highscore = document.getElementsByClassName("highscore_copy")[0];
         this._overlay_score.innerHTML = document.getElementById("score").innerHTML;
         this._overlay_highscore.innerHTML = this.highscore
+
+        this.initializeUIListeners();
     }
 
     manageContainerBackground(MATRIX_SIZE, SIZE) {
         let blocks = MATRIX_SIZE / SIZE;
-        this._container.parentElement.style.setProperty("--n", blocks);
+        this._container.parentElement.style.setProperty("--blocks", blocks);
     }
 
     createNewGame(MATRIX_SIZE, SIZE) {
@@ -91,14 +94,17 @@ class GameManager {
             this.restartGame();
             this.startGame();
         })
+
         let menu_button = document.getElementById("menu_button");
         menu_button.addEventListener("click", () => {
             this.game.endGame();
         })
+
         let settings_button = document.querySelector(".settings_button");
         settings_button.addEventListener("click", () => {
             this.manageSettingsButton();
         })
+
         window.addEventListener("keydown", (event) => {
             if(event.key == "Escape") {
                 this.game.endGame();
