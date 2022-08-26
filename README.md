@@ -8,7 +8,7 @@ A snake game on the web
  The movement is pretty simple, use the WASD keys to move up(w) left(a) down(s) and right(d)
  and to pause the game you can either press ESC or click the menu button at the top right corner of the game.
  
- You can also play on mobile or use your mouse for movement, simple click on the screen and the snake will go
+ You can also play on mobile or use your mouse for movement, simply click on the screen and the snake will go
  to a certain direction based on where you clicked. So when your click is at the left side of the snake it will go left, right side: right etc.
  
 
