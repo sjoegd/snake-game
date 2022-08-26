@@ -57,10 +57,17 @@ export default class SettingsHandler {
         },
     }
 
-    constructor(THEME) {
+    speeds = {
+        SLOW: 20,
+        NORMAL: 15,
+        FAST: 10
+    }
+
+    constructor(gameManager, THEME = "BLUE", SPEED = "NORMAL") {
+        this.gameManager = gameManager;
         this.root = document.querySelector(":root")
         this.getVariables();
-        this.initializeSettingsListeners(THEME);
+        this.initializeSettingsListeners(THEME, SPEED);
     }
 
     getVariables() {
@@ -88,17 +95,35 @@ export default class SettingsHandler {
 
     setSelectedTheme(element) {
         if(this.selectedTheme?.classList.contains("selected")) {
-            this.selectedTheme.classList.remove("selected")
+            this.selectedTheme.classList.remove("selected");
         }
-        element.classList.add("selected")
-        this.selectedTheme = element
+        element.classList.add("selected");
+        this.selectedTheme = element;
+    }
+
+    setSpeed(SPEED) {
+        let speed = this.speeds[SPEED]
+
+        if(!speed) {
+            return;
+        }
+
+        this.gameManager.setGameSpeed(speed);
+    }
+
+    setSelectedSpeed(element) {
+        if(this.selectedSpeed?.classList.contains("selected")) {
+            this.selectedSpeed.classList.remove("selected");
+        }
+        element.classList.add("selected");
+        this.selectedSpeed = element;
     }
 
     setRootProperty(property, value) {
         this.root.style.setProperty(property, value)
     }
 
-    initializeSettingsListeners(beginTHEME) {
+    initializeSettingsListeners(beginTHEME, beginSPEED) {
         // THEMES
         let BLUE_THEME = document.getElementById("BLUE_THEME");
         let PURPLE_THEME = document.getElementById("PURPLE_THEME");
@@ -121,5 +146,29 @@ export default class SettingsHandler {
                 this.setTheme(THEME.value);
             })
         })
+
+        // SPEEDS
+        let SLOW_SPEED = document.getElementById("SLOW_SPEED");
+        let NORMAL_SPEED = document.getElementById("NORMAL_SPEED");
+        let FAST_SPEED = document.getElementById("FAST_SPEED");
+
+        let SPEEDS = [
+            {ELEMENT: SLOW_SPEED , value: "SLOW"},
+            {ELEMENT: NORMAL_SPEED, value: "NORMAL"}, 
+            {ELEMENT: FAST_SPEED, value: "FAST"}
+        ];
+
+        SPEEDS.forEach(SPEED => {
+            if(SPEED.value == beginSPEED) {
+                this.setSelectedSpeed(SPEED.ELEMENT);
+                this.setSpeed(SPEED.value); 
+            }
+
+            SPEED.ELEMENT.addEventListener(("click"), () => {
+                this.setSelectedSpeed(SPEED.ELEMENT);
+                this.setSpeed(SPEED.value); 
+            })
+        })
+        
     }
 }

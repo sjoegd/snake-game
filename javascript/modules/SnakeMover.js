@@ -11,8 +11,6 @@
 
 export default class SnakeMover {
 
-    _speed = 16; //ms
-
     _directions = {
         "w": {
             column: 0,
@@ -41,7 +39,7 @@ export default class SnakeMover {
         key: undefined
     }
 
-    constructor(container, game_manager ,snake, apple, size, matrixsize) {
+    constructor(container, game_manager ,snake, apple, size, matrixsize, speed = 16) {
         this._container = container;
         this._game_manager = game_manager;
         this._snake = snake;
@@ -50,6 +48,7 @@ export default class SnakeMover {
         this._matrixsize = matrixsize;
         this._scorediv = document.getElementById("score");
         this._scorediv.innerHTML = this._current_score;
+        this._speed = speed;
         this.initializeListeners();
     }
 

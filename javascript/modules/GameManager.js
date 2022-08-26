@@ -19,7 +19,7 @@ class GameManager {
         this._overlay_container = document.getElementById("overlay_container");
 
         this.manageContainerBackground(this.MATRIX_SIZE, this.SIZE);
-        this._settings_handler = new SettingsHandler("BLUE");
+        this._settings_handler = new SettingsHandler(this);
 
         this.game = this.createNewGame(this.MATRIX_SIZE, this.SIZE);
         
@@ -46,7 +46,7 @@ class GameManager {
         let appleDiv = document.getElementById("apple");
         let apple = new Apple(appleDiv, SIZE);
     
-        let snakeMover = new SnakeMover(this._container, this, snake, apple, SIZE, MATRIX_SIZE);
+        let snakeMover = new SnakeMover(this._container, this, snake, apple, SIZE, MATRIX_SIZE, this.gameSpeed);
 
         let applePosition = apple.generatePosition(MATRIX_SIZE)
         while(!snakeMover.isValidApplePosition(applePosition)) {
@@ -86,6 +86,10 @@ class GameManager {
             container.removeChild(container.lastElementChild)
         }
         this.game = this.createNewGame(this.MATRIX_SIZE, this.SIZE)
+    }
+
+    setGameSpeed(ms) {
+        this.gameSpeed = ms;
     }
 
     initializeUIListeners() {
