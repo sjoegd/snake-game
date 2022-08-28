@@ -46,9 +46,6 @@ div {
     margin-right: 5rem;
     margin-top: 5rem;
 }
-#move_buttons_wrapper.left {
-    left: 0;
-}
 .move_button {
     width: 5rem;
     height: 5rem;
