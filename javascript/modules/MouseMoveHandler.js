@@ -30,13 +30,19 @@ export default class MouseMoveHandler {
             }
             let newPos = this.lastPosition;
             if(newPos.x != lastPos.x || newPos.y != lastPos.y) {
-                this.askSnakeDirection(lastPos, newPos);
-                lastPos = newPos
+                if(this.askSnakeDirection(lastPos, newPos)) {
+                    lastPos = newPos
+                    this.stopDrag;
+                }
             }
         }, this.speed)
     }
 
     askSnakeDirection(lastPosition, newPosition) {
+        if(this.delaying) {
+            return false;
+        }
+
         let difference = {
             x: newPosition.x - lastPosition.x,
             y: newPosition.y - lastPosition.y
@@ -50,13 +56,19 @@ export default class MouseMoveHandler {
         } else {
             difference.y < 0 ? this.snakeMover.askNewDirection("w") : this.snakeMover.askNewDirection("s")
         }
+        this.delaying = true;
+        setTimeout(() => {
+            this.delaying = false
+        }, this.speed*this.size)
+
+        return true;
     }
 
     initListeners() {
         this.container.addEventListener("mousedown", (event) => {
             this.startDrag(event)
         })
-        this.container.addEventListener("mouseup", (event) => {
+        this.container.addEventListener("mouseup", () => {
             this.stopDrag();
         })
         this.container.addEventListener("mousemove", (event) => {
@@ -69,7 +81,7 @@ export default class MouseMoveHandler {
                     x: newPosition.x - this.lastPosition.x,
                     y: newPosition.y - this.lastPosition.y
                 }
-                if(Math.abs(difference.x) > (this.size*4) || Math.abs(difference.y) > (this.size*4)) {
+                if(Math.abs(difference.x) > (this.size*2) || Math.abs(difference.y) > (this.size*2)) {
                     this.lastPosition = newPosition;
                 }
             }   
