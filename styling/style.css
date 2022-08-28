@@ -39,16 +39,14 @@ div {
 
 /* Move Buttons */
 #move_buttons_wrapper {
-    width: 15rem;
-    height: 15rem;
+    width: 18rem;
+    height: 18rem;
     display: none;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-    margin-right: 5rem;
-    margin-top: 5rem;
 }
 .move_button {
-    width: 5rem;
-    height: 5rem;
+    width: 6rem;
+    height: 6rem;
     background: var(--bg-wrapper);
     color: var(--text-color);
     font-size: 3rem;
@@ -57,8 +55,8 @@ div {
     justify-content: center;
 }
 .move_button_dummy {
-    width: 5rem;
-    height: 5rem;
+    width: 6rem;
+    height: 6rem;
     background: var(--bg-wrapper);
 }
 .move_button:hover {
@@ -101,6 +99,7 @@ div {
     -webkit-box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
     box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
     border-radius: 1rem;
+    margin: 5vmin;
 }
 
 #ui_container {
