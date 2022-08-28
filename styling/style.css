@@ -37,6 +37,62 @@ div {
                                     supported by Chrome, Edge, Opera and Firefox */
 }
 
+/* Move Buttons */
+#move_buttons_wrapper {
+    width: 15rem;
+    height: 15rem;
+    display: none;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    margin-right: 5rem;
+    margin-top: 5rem;
+}
+#move_buttons_wrapper.left {
+    left: 0;
+}
+.move_button {
+    width: 5rem;
+    height: 5rem;
+    background: var(--bg-wrapper);
+    color: var(--text-color);
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.move_button_dummy {
+    width: 5rem;
+    height: 5rem;
+    background: var(--bg-wrapper);
+}
+.move_button:hover {
+    filter: brightness(0.75);
+}
+
+#middle_button {
+    grid-area: 2 / 2 / 2 / 2;
+}
+#up_button {
+    grid-area: 1 / 2 / 1 / 2;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+#left_button {
+    grid-area: 2 / 1 / 2 / 1;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+#down_button {
+    grid-area: 3 / 2 / 3 / 2;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+
+}
+#right_button {
+    grid-area: 2 / 3 / 2 / 3;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
 /* UI */
 
 #ui_wrapper {

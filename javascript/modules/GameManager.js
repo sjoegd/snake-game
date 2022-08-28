@@ -2,6 +2,7 @@ import Apple from "./Apple.js";
 import Snake from "./Snake.js";
 import SnakeMover from "./SnakeMover.js";
 import SettingsHandler from "./SettingsHandler.js";
+import MoveButtonsManager from "./MoveButtonsManager.js";
 
 export function initializeGame(MATRIX_SIZE, SIZE) {
     new GameManager(MATRIX_SIZE, SIZE)
@@ -19,9 +20,9 @@ class GameManager {
         this._overlay_container = document.getElementById("overlay_container");
 
         this.manageContainerBackground(this.MATRIX_SIZE, this.SIZE);
-        this._settings_handler = new SettingsHandler(this);
-
+        this._settingsHandler = new SettingsHandler(this);
         this.game = this.createNewGame(this.MATRIX_SIZE, this.SIZE);
+        this._moveButtonsManager = new MoveButtonsManager(this);
         
         this._overlay_score = document.getElementsByClassName("score_copy")[0];
         this._overlay_highscore = document.getElementsByClassName("highscore_copy")[0];
@@ -90,6 +91,10 @@ class GameManager {
 
     setGameSpeed(ms) {
         this.gameSpeed = ms;
+    }
+
+    askNewSnakeDirection(key) {
+        this.game.askNewDirection(key)
     }
 
     initializeUIListeners() {
