@@ -1,16 +1,3 @@
-
-/**
- * Snake direction:
- * {
- * column: , (*what to add to column*)
- * row: , (*what to add to row*)
- * rotation: (*which rotation*)
- * }
- * 
- */
-
-import MouseMoveHandler from "./MouseMoveHandler.js";
-
 export default class SnakeMover {
 
     _directions = {
@@ -51,7 +38,6 @@ export default class SnakeMover {
         this._scorediv = document.getElementById("score");
         this._scorediv.innerHTML = this._current_score;
         this._speed = speed;
-        this._mouseMoveHandler = new MouseMoveHandler(this, this._container, this._speed, this._size);
         this.initializeListeners();
     }
 
