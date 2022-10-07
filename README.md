@@ -2,7 +2,7 @@
 A snake game on the web
 
 ## How to play 
- The game is currently being hosted on https://sjoegd.github.io/snake-game/,
+ The game is currently being hosted on http://snake.sjoegd.me,
  to play it simple go there and click play.
  
  The movement is pretty simple, use the WASD keys to move up(w) left(a) down(s) and right(d)
