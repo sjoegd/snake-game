@@ -20,3 +20,4 @@ The languages used to create this project are:
 ## Made by
 This project was entirely made by Sjoegd
 
+NOT FINISHED!
