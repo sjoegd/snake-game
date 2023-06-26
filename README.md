@@ -17,7 +17,6 @@ The languages used to create this project are:
 - CSS3
 - Javascipt
 
-## Made by
+## Author
 This project was entirely made by Sjoegd
 
-NOT FINISHED!
