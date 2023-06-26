@@ -1,4 +1,4 @@
-# Snake-game
+# Snake Game
 A snake game on the web
 
 ## How to play 
