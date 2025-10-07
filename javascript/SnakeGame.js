@@ -9,7 +9,7 @@ import {initializeGame} from "./modules/GameManager.js";
  * Sounds?
  */
 
- initializeGame(192, 8);
+initializeGame(192, 8);
 
 
 
